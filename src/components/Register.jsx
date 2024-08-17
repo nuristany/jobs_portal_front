@@ -11,7 +11,6 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
-  const [registeredUserEmail, setRegisteredUserEmail] = useState(""); // Store the user's email after registration
 
   const handleChange = (e) => {
     setFormData({
@@ -47,10 +46,6 @@ function Register() {
         throw new Error(data.detail || "Failed to register user");
       }
 
-      // Store the registered user's email
-      setRegisteredUserEmail(formData.email);
-      console.log("Email set to:", formData.email); // Debugging email value
-
       // Show SweetAlert to prompt for OTP
       const { value: otpCode } = await Swal.fire({
         title: "Enter OTP",
@@ -61,7 +56,6 @@ function Register() {
       });
 
       if (otpCode) {
-        // Ensure we have the latest registered email
         await verifyOtp(otpCode, formData.email);
       } else {
         Swal.fire("Error", "OTP was not entered.", "error");
